@@ -24,8 +24,8 @@ pipeline {
                     passwordVariable: 'DOCKER_TOKEN'
                 )]) {
                     bat '''
-                    echo|set /p=%DOCKER_TOKEN% > token.txt
-                    docker login -u %DOCKER_USER% --password-stdin < token.txt
+                    docker logout
+                    docker login -u %DOCKER_USER% -p %DOCKER_TOKEN%
                     '''
                 }
             }
