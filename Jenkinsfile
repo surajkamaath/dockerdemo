@@ -7,6 +7,7 @@ pipeline {
     }
 
     stages {
+
         stage('Docker Check') {
             steps {
                 bat "whoami"
@@ -22,7 +23,10 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_TOKEN'
                 )]) {
-                    bat "echo %DOCKER_TOKEN% | docker login -u %DOCKER_USER% --password-stdin"
+                    bat '''
+                    echo|set /p=%DOCKER_TOKEN% > token.txt
+                    docker login -u %DOCKER_USER% --password-stdin < token.txt
+                    '''
                 }
             }
         }
